@@ -17,6 +17,9 @@ module.exports = (sequelize, Sequelize) => {
         id_colocataire: {
             type: Sequelize.INTEGER
         },
+        est_paye : {
+            type: Sequelize.BOOLEAN
+        },
         id_depense : {
             type: Sequelize.INTEGER
         }

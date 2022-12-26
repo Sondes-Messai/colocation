@@ -15,15 +15,10 @@ export const getDepensesApi = (async () => {
 });
 
 export const postDepenseApi = (async (depense) => {
-    // Ajout des elements au formulaire
-    let bodyFormData = new FormData();
-    for (var key in depense) {
-        bodyFormData.append(key, depense[key]);
-    }
     return await axios({
         method: "post",
         url: __BASE_URL + "/depenses",
-        data: bodyFormData,
+        data: depense,
         headers: __HEADERS
     }).catch(err => {
         alert(err);
@@ -32,15 +27,10 @@ export const postDepenseApi = (async (depense) => {
 });
 
 export const updateDepenseApi = (async (depense) => {
-    // Ajout des elements au formulaire
-    let bodyFormData = new FormData();
-    for (var key in depense) {
-        bodyFormData.append(key, depense[key]);
-    }
     return await axios({
         method: "put",
         url: __BASE_URL + "/depenses/" + depense.id,
-        data: bodyFormData,
+        data: depense,
         headers: __HEADERS
     }).catch(err => {
         alert(err);

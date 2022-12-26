@@ -31,7 +31,7 @@ export const postColocataireApi = (async (colocataire) => {
     bodyFormData.append('dateOfBirth', colocataire.dateOfBirth);
     bodyFormData.append('phone', colocataire.phone);
     bodyFormData.append('email', colocataire.email);
-    bodyFormData.append('img', colocataire.img);
+    
 */
     return await axios({
         method: "post",

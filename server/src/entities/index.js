@@ -23,6 +23,7 @@ db.Colocataire = require('./colocataire.entity.js')(sequelize, Sequelize)
 db.Depense = require('./depense.entity.js')(sequelize, Sequelize)
 db.DepenseGroupe = require('./depenseGroupe.entity.js')(sequelize, Sequelize)
 db.Payment = require('./payment.entity.js')(sequelize, Sequelize)
+db.User = require('./user.entity.js')(sequelize, Sequelize)
 
 //db.Depense.hasMany(db.Payment, { foreignKey: "id_depense",as: "payments" });
 //db.Payment.belongsTo(db.Depense);

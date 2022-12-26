@@ -12,7 +12,7 @@ class LayoutComponent extends Component {
     render() {
         return (
             <>
-                <HeaderComponent logout={this.props.logout} />
+                <HeaderComponent logout={this.props.logout} user={this.props.user}/>
                 <div className="app-divider"></div>
                 <main className="container p-3" style={{ minHeight: '500px' }}>
                     <Outlet />

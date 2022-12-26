@@ -5,15 +5,22 @@ module.exports = (sequelize, Sequelize) => {
             autoIncrement: true,
             primaryKey: true
         },
-        login: {
+        email: {
             type: Sequelize.STRING
         },
         mdp: {
             type: Sequelize.STRING
         },
-        mail: {
+        /*
+        nom: {
             type: Sequelize.STRING
         },
+        prenom: {
+            type: Sequelize.STRING
+        },
+        date_anniversaire: {
+            type: Sequelize.DATE
+        },*/
         id_colocation: {
             type: Sequelize.INTEGER
         }

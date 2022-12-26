@@ -5,12 +5,28 @@ module.exports = (sequelize, Sequelize) => {
             autoIncrement: true,
             primaryKey: true
         },
+        
+        title: {
+            type: Sequelize.STRING
+        },
         nom: {
             type: Sequelize.STRING
         },
         prenom: {
             type: Sequelize.STRING
+        }, 
+        email: {
+            type: Sequelize.STRING
         },
+        date_naissance: {
+            type: Sequelize.DATE
+        },
+        telephone: {
+            type: Sequelize.STRING
+        },
+        //img: {
+        //    type: Sequelize.STRING
+        //},
         id_colocation: {
             type: Sequelize.INTEGER
         }

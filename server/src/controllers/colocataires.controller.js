@@ -1,18 +1,10 @@
 const db = require("../entities");
-const models = require("../models");
 const dbColocataire = db.Colocataire;
-//const Colocataire = models.Colocataire;
 
-// Créer une nouvelle colocataire
+// Ajouter un colocataire
 exports.create = (req, res) => {
     //console.log(req);
-    const model = {
-        nom : req.body.nom,
-        prenom : req.body.prenom,
-        id_colocation : req.body.id_colocation,
-    };
-    //console.log(model);
-    // Save Tutorial in the database
+    const model = req.body;
     dbColocataire.create(model)
         .then(data => {
             res.send({
@@ -67,12 +59,7 @@ exports.findOne = (req, res) => {
 // Modifier une colocataire
 exports.update = (req, res) => {
     const id = req.params.id;
-    const model = {
-        id : id,
-        nom : req.body.nom,
-        prenom : req.body.prenom,
-        id_colocation : req.body.id_colocation,
-    };
+    const model = req.body;
     dbColocataire.update(model, {
         where: { id: id }
     })

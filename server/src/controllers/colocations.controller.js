@@ -1,7 +1,5 @@
 const db = require("../entities");
-const models = require("../models");
 const dbColocation = db.Colocation;
-const Colocation = models.Colocation;
 
 // Créer une nouvelle dépense
 exports.create = (req, res) => {
