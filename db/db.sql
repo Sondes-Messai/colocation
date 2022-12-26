@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 22 déc. 2022 à 19:49
+-- Généré le : lun. 26 déc. 2022 à 23:58
 -- Version du serveur : 10.4.24-MariaDB
 -- Version de PHP : 8.1.6
 
@@ -20,50 +20,42 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `colocataires`
 --
-CREATE DATABASE IF NOT EXISTS `colocataires` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `colocataires`;
 
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `colocataires`
 --
-
-CREATE TABLE IF NOT EXISTS `colocataires` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS `payments`;
+DROP TABLE IF EXISTS `colocataires`;
+DROP TABLE IF EXISTS `depenses`;
+DROP TABLE IF EXISTS `depense_groupes`;
+DROP TABLE IF EXISTS `utilisateurs`;
+DROP TABLE IF EXISTS `colocations`;
+CREATE TABLE `colocataires` (
+  `id` int(10) NOT NULL,
+  `title` varchar(4) DEFAULT NULL,
   `nom` varchar(100) NOT NULL,
   `prenom` varchar(100) NOT NULL,
-  `id_colocation` int(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `colocataires`
---
-
-INSERT INTO `colocataires` (`id`, `nom`, `prenom`, `id_colocation`) VALUES
-(1, 'messai', 'sondes', 1),
-(2, 'test', 'alison', 1),
-(9, 'Anis', 'Ellouzi', 1);
+  `date_naissance` date DEFAULT NULL,
+  `telephone` varchar(50) DEFAULT NULL,
+  `email` varchar(150) DEFAULT NULL,
+  `id_colocation` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `colocations`
 --
-
-CREATE TABLE IF NOT EXISTS `colocations` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+CREATE TABLE `colocations` (
+  `id` int(10) NOT NULL,
+  `nom` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `colocations`
 --
-
-INSERT INTO `colocations` (`id`, `nom`) VALUES
-(1, 'MaColocation');
 
 -- --------------------------------------------------------
 
@@ -71,26 +63,16 @@ INSERT INTO `colocations` (`id`, `nom`) VALUES
 -- Structure de la table `depenses`
 --
 
-CREATE TABLE IF NOT EXISTS `depenses` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `depenses` (
+  `id` int(10) NOT NULL,
   `id_categorie` int(10) NOT NULL,
   `title` varchar(250) NOT NULL,
   `montant` float NOT NULL,
   `date` date NOT NULL,
   `frequence` tinyint(1) NOT NULL DEFAULT 0,
   `date_creation` date NOT NULL,
-  `id_colocation` int(10) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `depenses_colocations_ibfk_1` (`id_colocation`),
-  KEY `depenses_groupes_ibfk_1` (`id_categorie`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `depenses`
---
-
-INSERT INTO `depenses` (`id`, `id_categorie`, `title`, `montant`, `date`, `frequence`, `date_creation`, `id_colocation`) VALUES
-(1, 1, 'EDF', 80, '2022-12-01', 1, '2022-12-14', 1);
+  `id_colocation` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -98,19 +80,11 @@ INSERT INTO `depenses` (`id`, `id_categorie`, `title`, `montant`, `date`, `frequ
 -- Structure de la table `depense_groupes`
 --
 
-CREATE TABLE IF NOT EXISTS `depense_groupes` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+CREATE TABLE `depense_groupes` (
+  `id` int(10) NOT NULL,
+  `nom` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Déchargement des données de la table `depense_groupes`
---
-
-INSERT INTO `depense_groupes` (`id`, `nom`) VALUES
-(1, 'Loyer'),
-(2, 'Assurances');
 
 -- --------------------------------------------------------
 
@@ -118,25 +92,16 @@ INSERT INTO `depense_groupes` (`id`, `nom`) VALUES
 -- Structure de la table `payments`
 --
 
-CREATE TABLE IF NOT EXISTS `payments` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `payments` (
+  `id` int(10) NOT NULL,
   `id_depense` int(10) NOT NULL,
   `title` varchar(250) NOT NULL,
   `montant` float NOT NULL,
   `date` date NOT NULL,
   `id_colocataire` int(10) NOT NULL,
-  `date_creation` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `payments_depenses_ibfk_1` (`id_depense`),
-  KEY `payments_colocataires_ibfk_1` (`id_colocataire`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Déchargement des données de la table `payments`
---
-
-INSERT INTO `payments` (`id`, `id_depense`, `title`, `montant`, `date`, `id_colocataire`, `date_creation`) VALUES
-(1, 1, 'test', 40, '2022-12-01', 1, '2022-12-11');
+  `est_paye` tinyint(1) NOT NULL,
+  `date_creation` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -144,25 +109,73 @@ INSERT INTO `payments` (`id`, `id_depense`, `title`, `montant`, `date`, `id_colo
 -- Structure de la table `utilisateurs`
 --
 
-CREATE TABLE IF NOT EXISTS `utilisateurs` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `login` varchar(25) NOT NULL,
+CREATE TABLE `utilisateurs` (
+  `id` int(10) NOT NULL,
+  `email` varchar(150) NOT NULL,
   `mdp` varchar(100) NOT NULL,
-  `mail` varchar(30) NOT NULL,
-  `id_colocation` int(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `id_colocation` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `utilisateurs`
+-- Index pour les tables déchargées
 --
 
-INSERT INTO `utilisateurs` (`id`, `login`, `mdp`, `mail`, `id_colocation`) VALUES
-(2, 'anis', 'anis', 'anis.ellouzi@live.fr', 1);
+--
+-- Index pour la table `colocataires`
+--
+ALTER TABLE `colocataires`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Contraintes pour les tables déchargées
+-- Index pour la table `colocations`
 --
+ALTER TABLE `colocations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `depenses`
+--
+ALTER TABLE `depenses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `depenses_colocations_ibfk_1` (`id_colocation`),
+  ADD KEY `depenses_groupes_ibfk_1` (`id_categorie`);
+
+--
+-- Index pour la table `depense_groupes`
+--
+ALTER TABLE `depense_groupes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `payments_depenses_ibfk_1` (`id_depense`),
+  ADD KEY `payments_colocataires_ibfk_1` (`id_colocataire`);
+
+--
+-- Index pour la table `utilisateurs`
+--
+ALTER TABLE `utilisateurs`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `colocations`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `depense_groupes`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT pour la table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `utilisateurs`
+--
+ALTER TABLE `utilisateurs`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- Contraintes pour la table `colocataires`
@@ -194,3 +207,22 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--
+-- Déchargement des données de la table `depense_groupes`
+--
+
+
+INSERT INTO `colocations` (`nom`) VALUES
+('MaColocation');
+
+INSERT INTO `depense_groupes` (`nom`) VALUES
+('Maison'),
+('Alimentation'),
+('Utilitaire'),
+('Transport'),
+('Achat'),
+('Entretien'),
+('Assurances'),
+('Loyer'),
+('Autres');
