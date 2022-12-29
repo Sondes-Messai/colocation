@@ -1,0 +1,62 @@
+@startuml
+
+title Diagramme de classe "MaColoc"
+
+class Colocation {
+  +Int Id
+  +String Nom
+}
+
+class Utilisateur {
+  +Int Id
+  +Id ColocationId
+  +String Nom
+  +String Prenom
+  +String Email
+  +String Mdp  
+}
+
+class Colocataire {
+  +Int Id
+  +Id ColocationId  
+  +String Nom
+  +String Prenom
+  +String Email
+  +String Mdp  
+}
+
+class Depense {
+  +Int Id
+  +Id ColocationId
+  +String Title
+  +Decimal Montant
+}
+
+class DepenseGroupe {
+  +Int Id
+  +String Title
+}
+
+class Payment {
+  +Int Id
+  +Int DepenseId
+  +Int ColocataireId
+  +String Title
+  +Decimal Montant
+  +Bool EstPaye
+}
+
+class Utilisateur
+class Colocataire
+class Colocation
+class Depense
+class DepenseGroupe
+class Payment
+
+Colocation "0..*" -- "1..1"  Utilisateur
+Colocation "0..*" -- "1..1"  Colocataire
+Depense "1..1" -- "1..1"  DepenseGroupe
+Colocation "0..*" -- "1..1"  Depense
+Depense "0..*" -- "1..1" Payment
+
+@enduml

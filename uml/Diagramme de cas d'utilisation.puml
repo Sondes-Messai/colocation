@@ -1,0 +1,39 @@
+@startuml
+
+title Diagramme de cas d'utilisation "MaColoc"
+
+rectangle Utilisateurs {
+    (Créer un compte)
+    (Authentification)
+}
+
+rectangle "Colocataires" {
+    (Gérer les colocataires)
+    (Ajouter un colocataire)
+    (Supprimer un colocataire)
+}
+
+rectangle "Dépenses" {
+    (Gérer les dépenses)
+    (Ajouter une dépense)
+    (Supprimer une dépense)
+    (Payer une dépense)
+}
+
+Utilisateur -up-|> (Créer un compte)
+Utilisateur -up-|> (Authentification)
+
+Utilisateur --> (Gérer les colocataires)
+Utilisateur --> (Gérer les dépenses)
+Utilisateur -up-|> (Suivre les transactions)
+
+
+(Gérer les colocataires)  -down-|> (Ajouter un colocataire)
+(Gérer les colocataires)  -down-|> (Supprimer un colocataire)
+
+
+(Gérer les dépenses) -down-|> (Ajouter une dépense)
+(Gérer les dépenses) -down-|> (Supprimer une dépense)
+(Gérer les dépenses) -down-|> (Payer une dépense)
+
+@enduml
